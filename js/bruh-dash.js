@@ -1,10 +1,59 @@
+function validateArray(thisArray,dictionary,hideDisplay)
+{  
+  if(!thisArray instanceof Array)
+  {
+    consoleOut('Array was not passed',hideDisplay);
+    return false;
+  }
+
+  if(dictionary && dictionary.min && thisArray.length< dictionary.min)
+  {
+    consoleOut('array length should be >= '+ dictionary.min,hideDisplay);
+    return false;
+  }
+
+  consoleOut('Array is Ok',hideDisplay);
+  return true;
+}
+function validateNumber(thisNumber,dictionary,hideDisplay)
+{
+    if(isNaN(parseInt(thisNumber)))
+  {
+    consoleOut(thisNumber + ' is not a number.',hideDisplay);
+    return false;
+  }
+
+    if(dictionary && dictionary.min && thisNumber < dictionary.min)
+  {
+    consoleOut(thisNumber + ' should be >= '+ dictionary.min,hideDisplay);
+    return false;
+  }
+
+    consoleOut(thisNumber + ' is Ok',hideDisplay);
+  return true;
+}
+
+function consoleOut(message, hideDisplay)
+{
+  if(!hideDisplay)
+  {
+    console.log(message);
+  }
+
+}
+
+
 var global = window || GLOBAL;
 
 global.bruhdash = {
   chunk: function(array,number){
-    var toArray=[];
 
     number=(number==undefined)?1:number;
+
+    validateArray(array,{min:20});
+    validateNumber(number);
+
+    var toArray=[];
 
     for(var i=0;i<array.length;i+=number)
     {
@@ -16,6 +65,10 @@ global.bruhdash = {
 
   compact: function(array) {
     var returnArray=[];
+
+    return array.filter(function(element){return element;});
+
+    /*
     for(var i=0;i<array.length;i++)
     {
       if(array[i])
@@ -26,9 +79,14 @@ global.bruhdash = {
     }
 
     return returnArray;
+    */
   },
 
   difference: function(arrayIn, arrayCompare) {
+
+    return arrayIn.filter(function(element){return !(arrayCompare.indexOf(element) +1)});
+    /*
+
     var returnArray=[];
 
     for(var i=0;i<arrayIn.length;i++)
@@ -40,24 +98,17 @@ global.bruhdash = {
     }
 
     return returnArray;
+    */
   },
 
   drop: function(array, number){
-      if(number == undefined)
-      {
-        number=1;
-      }
-      //console.log("number=" +number);
-      return array.slice(number);
+     // number=(number == undefined)?1:number;
+      return array.slice((number == undefined)?1:number);
   },
 
   dropRight: function(array, number) {
-      if(number == undefined)
-      {
-        number=1;
-      }
       //console.log("number=" +number);
-      return array.slice(0,array.length-1-number);
+      return array.slice(0,array.length-((number == undefined)?1:number));
   },
 
   fill: function(array,value,start,end) {
@@ -69,8 +120,6 @@ global.bruhdash = {
     {
       array[i]=value;
     }
-
-    return array;
   },
 
   first: function (array) {
@@ -134,6 +183,10 @@ global.bruhdash = {
 
   //  var searchArrayLength=array[0].length;
 
+    arguments[0].filter(function(element){return !toRemoveArray.indexOf(element)});
+
+    /*
+
     for(var i=0;i<arguments[0].length;i++)
     {
       if(toRemoveArray.indexOf(arguments[0][i])>-1)
@@ -144,8 +197,9 @@ global.bruhdash = {
     }
 
     return 1;
+    */
 }
-    return -1;
+   // return -1;
     
       
   },
@@ -292,11 +346,11 @@ global.bruhdash = {
 console.log(bruhdash.chunk([1,2,3,4,5],2));
 console.log("chunk use Default" + bruhdash.chunk([1,2,3,4,5]));
 
-console.log(bruhdash.compact([1,2,undefined,4,NaN,0,null,5]));
+console.log("Compact " + bruhdash.compact([1,2,undefined,4,NaN,0,null,5]));
 
-console.log(bruhdash.difference([1,2,3,4,5],[3,1,5,2]));
-console.log(bruhdash.drop([1,2,3,4,5]));
-console.log(bruhdash.drop([1,2,3,4,5],2));
+console.log("Difference "+ bruhdash.difference([1,2,3,4,5],[3,1,5,2]));
+console.log("Drop "+ bruhdash.drop([1,2,3,4,5]));
+console.log("Drop "+ bruhdash.drop([1,2,3,4,5],2));
 
 console.log("DropRight" + bruhdash.dropRight([1,2,3,4,5],2));
 console.log("fill" + bruhdash.fill([1,2,3,4,5],'*',1,3));
