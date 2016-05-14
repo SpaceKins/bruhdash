@@ -165,7 +165,10 @@ global.bruhdash = {
     return -1;
   },
 
-  pull: function () {
+  pull: function (array) {
+    array=[1];
+
+    return;
     var numOfArgs=arguments.length;
     var toRemoveArray=[];
 
@@ -183,8 +186,9 @@ global.bruhdash = {
 
   //  var searchArrayLength=array[0].length;
 
-    arguments[0].filter(function(element){return !toRemoveArray.indexOf(element)});
+ //  array=arguments[0].filter(function(element){console.log(element +"<>" + toRemoveArray +"**" + toRemoveArray.indexOf(element)); return !(toRemoveArray.indexOf(element))});
 
+    array=[1];
     /*
 
     for(var i=0;i<arguments[0].length;i++)
@@ -365,7 +369,7 @@ console.log("last"  + bruhdash.last([1,2,3,4,5]));
 console.log("lastIndexOf =="  + bruhdash.lastIndexof([1,2,3,4,3,5,6,7],3,5));
 
 var dataArray=[1,2,3,4,3,5,6,7];
-console.log("pull =="  + bruhdash.pull(dataArray,3,5));
+console.log("pull =="  + bruhdash.pull(dataArray));  //,3,5
 console.log(dataArray);
 
 dataArray=[1,2,3,4,3,5,6,7];
